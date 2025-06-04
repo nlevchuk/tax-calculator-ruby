@@ -1,4 +1,5 @@
 require_relative 'base'
+require_relative 'line_parser'
 
 module TaxCalculator
   module Input
@@ -14,27 +15,7 @@ module TaxCalculator
           .split("\n")
           .map(&:strip)
           .reject(&:empty?)
-          .map { |line| parse_line(line) }
-      end
-
-      private
-
-      def parse_line(line)
-        raw = line.split
-
-        quantity = raw.shift.to_s
-        shelf_price = raw.pop.to_s
-        raw.pop # Remove 'at'
-        name = raw.join(' ')
-
-        if (
-          [quantity, name, shelf_price].any?(&:empty?) ||
-          shelf_price.to_d == '0.0'.to_d
-        )
-          raise 'The line is invalid'
-        end
-
-        { quantity:, name:, shelf_price: }
+          .map { |line| LineParser.parse(line) }
       end
     end
   end
