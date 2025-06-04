@@ -9,8 +9,8 @@ This is an application that process a shopping basket, calculates applicable tax
 2. Clone the repository:
 
 ```bash
-git clone https://github.com/nlevchuk/tax-calculator.git
-cd tax-calculator/
+git clone https://github.com/nlevchuk/tax-calculator-ruby.git
+cd tax-calculator-ruby/
 ```
 
 ## Usage
