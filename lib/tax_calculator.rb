@@ -1,3 +1,5 @@
+require 'bigdecimal/util'
+
 require_relative 'tax_calculator/item'
 require_relative 'tax_calculator/tax_strategies/basic_tax'
 require_relative 'tax_calculator/tax_strategies/import_duty'

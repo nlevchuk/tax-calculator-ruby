@@ -1,7 +1,4 @@
-require 'bigdecimal/util'
-
 require_relative 'base'
-require_relative '../item'
 
 module TaxCalculator
   module Input
