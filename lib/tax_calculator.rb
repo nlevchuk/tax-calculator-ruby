@@ -1,6 +1,7 @@
 require 'bigdecimal/util'
 
 require_relative 'tax_calculator/item'
+require_relative 'tax_calculator/receipt'
 require_relative 'tax_calculator/tax_strategies/basic_tax'
 require_relative 'tax_calculator/tax_strategies/import_duty'
 require_relative 'tax_calculator/calculator'
@@ -17,7 +18,8 @@ module TaxCalculator
     ]
 
     updated_items = Calculator.calculate(items, tax_strategies)
+    receipt = Receipt.new(updated_items)
 
-    output.prepare_output(updated_items)
+    output.prepare_output(receipt)
   end
 end
