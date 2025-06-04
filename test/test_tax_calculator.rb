@@ -1,8 +1,8 @@
-require 'minitest/autorun'
+require_relative 'test_helper'
 
-require_relative '../lib/tax_calculator'
-require_relative '../lib/tax_calculator/input/text'
-require_relative '../lib/tax_calculator/output/text'
+require 'tax_calculator'
+require 'tax_calculator/input/text'
+require 'tax_calculator/output/text'
 
 describe TaxCalculator do
   before do
