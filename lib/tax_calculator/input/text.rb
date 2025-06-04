@@ -1,11 +1,12 @@
 require_relative 'base'
 require_relative 'line_parser'
+require_relative '../errors/empty_input_error'
 
 module TaxCalculator
   module Input
     class Text < Base
       def get_raw_data(str)
-        raise 'Empty input' if str.empty?
+        raise Errors::EmptyInputError.new if str.empty?
 
         str
       end
