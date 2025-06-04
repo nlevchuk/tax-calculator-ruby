@@ -3,6 +3,8 @@ require_relative 'test_helper'
 require 'tax_calculator'
 require 'tax_calculator/input/text'
 require 'tax_calculator/output/text'
+require 'tax_calculator/errors/empty_input_error'
+require 'tax_calculator/errors/invalid_input_error'
 
 describe TaxCalculator do
   before do
@@ -14,7 +16,9 @@ describe TaxCalculator do
 
   describe 'when the input is empty' do
     it 'raises an error' do
-      _(-> { TaxCalculator.run('', **@options) }).must_raise
+      _(-> { TaxCalculator.run('', **@options) }).must_raise(
+        TaxCalculator::Errors::EmptyInputError
+      )
     end
   end
 
@@ -25,7 +29,9 @@ describe TaxCalculator do
     end
 
     it 'raises an error' do
-      _(-> { TaxCalculator.run(@invalid_input, **@options) }).must_raise
+      _(-> { TaxCalculator.run(@invalid_input, **@options) }).must_raise(
+        TaxCalculator::Errors::InvalidInputError
+      )
     end
   end
 
