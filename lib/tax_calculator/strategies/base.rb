@@ -1,5 +1,5 @@
 module TaxCalculator
-  module TaxStrategies
+  module Strategies
     class Base
       ROUNDING_UNIT = 0.05
 
@@ -8,7 +8,7 @@ module TaxCalculator
       end
 
       def can_apply?(item)
-        raise "Implemented in child classes"
+        raise NotImplementedError
       end
 
       def calculate(shelf_price)

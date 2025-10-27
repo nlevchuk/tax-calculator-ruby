@@ -1,7 +1,7 @@
 require_relative 'base'
 
 module TaxCalculator
-  module TaxStrategies
+  module Strategies
     class BasicTax < Base
       EXEMPTIONS = ['book', 'chocolate', 'pill']
 

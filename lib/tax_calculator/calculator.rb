@@ -1,5 +1,5 @@
 module TaxCalculator
-  module Calculator
+  class Calculator
     def self.calculate(items, tax_strategies)
       return items if items.empty? || tax_strategies.empty?
 

@@ -1,25 +1,40 @@
 require 'bigdecimal/util'
+require 'optparse'
 
-require_relative 'tax_calculator/item'
-require_relative 'tax_calculator/receipt'
-require_relative 'tax_calculator/tax_strategies/basic_tax'
-require_relative 'tax_calculator/tax_strategies/import_duty'
 require_relative 'tax_calculator/calculator'
+require_relative 'tax_calculator/errors'
+require_relative 'tax_calculator/file_reader'
+require_relative 'tax_calculator/models/item'
+require_relative 'tax_calculator/models/receipt'
+require_relative 'tax_calculator/parsers/txt_parser'
+require_relative 'tax_calculator/processor'
+require_relative 'tax_calculator/serializers/txt_serializer'
+require_relative 'tax_calculator/strategies/basic_tax'
+require_relative 'tax_calculator/strategies/import_duty'
 
 module TaxCalculator
-  def self.run(source, input:, output:)
-    raw_data = input.get_raw_data(source)
-    item_attributes = input.parse(raw_data)
+  @@option_parser = OptionParser.new { |opts| opts.banner = 'Usage: bin/run FILEPATH' }
 
-    items = item_attributes.map { |attrs| Item.new(**attrs) }
-    tax_strategies = [
-      TaxStrategies::BasicTax.new,
-      TaxStrategies::ImportDuty.new
-    ]
+  def self.run(options)
+    filepath = parse_options(options).first
 
-    updated_items = Calculator.calculate(items, tax_strategies)
-    receipt = Receipt.new(updated_items)
+    processor = Processor.new(
+      file_reader: FileReader.new,
+      parser: Parsers::TxtParser.new,
+      serializer: Serializers::TxtSerializer.new
+    )
 
-    output.prepare_output(receipt)
+    begin
+      processor.process(filepath)
+    rescue InvalidFilepathError => e
+      puts e.message
+      @@option_parser # show parser's banner
+    rescue FileReaderError, InvalidInputError => e
+      e.message
+    end
+  end
+
+  def self.parse_options(options)
+    @@option_parser.parse!(options)
   end
 end
